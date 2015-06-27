@@ -17,6 +17,9 @@
         coords: {
           lat: 47.615244,
           lng: -122.320800
+        },
+        click: function () {
+          alert("click");
         }
       },
       {

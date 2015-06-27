@@ -26,7 +26,7 @@
             lat="{{market.coords.lat}}"
             lng="{{market.coords.lng}}"
             color="teal"
-            icon="grocery">
+            icon="grocery" ng-click="$parent.market.click()">
       <h1>{{market.name}}</h1>
       <p>{{market.times}}</p>
     </marker>

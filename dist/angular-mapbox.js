@@ -392,7 +392,7 @@
       controller.getMap().then(function(map) {
         transclude(scope, function(transcludedContent) {
           var popupContentElement;
-          if(transcludedContent) {
+          if(transcludedContent != null && transcludedContent.length > 0) {
             popupContentElement = document.createElement('span');
             for(var i = 0; i < transcludedContent.length; i++) {
               popupContentElement.appendChild(transcludedContent[i]);
@@ -409,7 +409,8 @@
 
             map.locate();
           } else {
-            _marker = addMarker(scope, map, [attrs.lat, attrs.lng], popupContentElement, _opts, _style);
+            console.log(scope);
+            _marker = addMarker(scope, map, [attrs.lat, attrs.lng], popupContentElement, _opts, _style, element);
           }
         });
 
@@ -441,7 +442,7 @@
       return opts;
     }
 
-    function addMarker(scope, map, latlng, popupContent, opts, style) {
+    function addMarker(scope, map, latlng, popupContent, opts, style, element) {
       opts = opts || {};
 
       var marker = L.mapbox.marker.style({ properties: style }, latlng);
@@ -453,6 +454,9 @@
         scope.clusterGroup.addLayer(marker);
       } else {
         marker.addTo(map);
+        marker.on("click", function (e) {
+          element.triggerHandler('click');
+        });
       }
 
       // this needs to come after being added to map because the L.mapbox.marker.style() factory

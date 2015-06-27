@@ -51,12 +51,12 @@
             _opts.excludeFromClustering = true;
 
             map.on('locationfound', function(e) {
-              _marker = addMarker(scope, map, [e.latlng.lat, e.latlng.lng], popupContentElement, _opts, _style);
+              _marker = addMarker(scope, map, [e.latlng.lat, e.latlng.lng], popupContentElement, _opts, _style, element);
             });
 
             map.locate();
           } else {
-            _marker = addMarker(scope, map, [attrs.lat, attrs.lng], popupContentElement, _opts, _style);
+            _marker = addMarker(scope, map, [attrs.lat, attrs.lng], popupContentElement, _opts, _style, element);
           }
         });
 
@@ -88,7 +88,7 @@
       return opts;
     }
 
-    function addMarker(scope, map, latlng, popupContent, opts, style) {
+    function addMarker(scope, map, latlng, popupContent, opts, style, element) {
       opts = opts || {};
 
       var marker = L.mapbox.marker.style({ properties: style }, latlng);
@@ -100,6 +100,9 @@
         scope.clusterGroup.addLayer(marker);
       } else {
         marker.addTo(map);
+        marker.on("click", function () {
+          element.triggerHandler('click');
+        });
       }
 
       // this needs to come after being added to map because the L.mapbox.marker.style() factory
