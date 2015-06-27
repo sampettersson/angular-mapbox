@@ -404,12 +404,11 @@
             _opts.excludeFromClustering = true;
 
             map.on('locationfound', function(e) {
-              _marker = addMarker(scope, map, [e.latlng.lat, e.latlng.lng], popupContentElement, _opts, _style);
+              _marker = addMarker(scope, map, [e.latlng.lat, e.latlng.lng], popupContentElement, _opts, _style, element);
             });
 
             map.locate();
           } else {
-            console.log(scope);
             _marker = addMarker(scope, map, [attrs.lat, attrs.lng], popupContentElement, _opts, _style, element);
           }
         });
@@ -454,7 +453,7 @@
         scope.clusterGroup.addLayer(marker);
       } else {
         marker.addTo(map);
-        marker.on("click", function (e) {
+        marker.on("click", function () {
           element.triggerHandler('click');
         });
       }
